@@ -6,8 +6,8 @@ import io.reactivex.Flowable;
 
 public class SubsystemManager extends StreamManager {
 
-    public SubsystemManager(Flowable<Boolean> enabled, Flowable<CompMode> mode) {
-        super(enabled, mode);
-    }
+  public SubsystemManager(Flowable<Boolean> enabled, Flowable<CompMode> mode) {
+    super(enabled, mode);
+  }
 
 }

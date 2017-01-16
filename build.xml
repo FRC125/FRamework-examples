@@ -61,6 +61,7 @@
   </target>
 
   <target name="compile" description="Try to override WPILib's compile step">
+    <ant antfile="FRamework/build.xml" target="compile" useNativeBasedir="true" />
     <mkdir dir="${build.dir}"/>
     <path id="classpath.path">
       <fileset dir="${userLibs.dir}" includes="*.jar"/>
@@ -70,6 +71,7 @@
       <fileset file="${cscore.jar}"/>
       <fileset dir="${userLibs}" erroronmissingdir="false"/>
       <fileset dir="lib/" includes="*.jar"/> <!-- include everything, I did not remove wpi's specific includes-->
+      <pathelement path="FRamework/build" />
     </path>
     <pathconvert property="classpathProp" refid="classpath.path"/>
     <echo>[athena-compile] Compiling ${src.dir} with classpath=${classpathProp} to ${build.dir}</echo>
