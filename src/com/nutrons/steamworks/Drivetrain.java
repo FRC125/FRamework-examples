@@ -7,6 +7,7 @@ import com.nutrons.FRamework.consumers.LoopControllerEvent;
 import com.nutrons.FRamework.consumers.LoopFollowEvent;
 import com.nutrons.FRamework.consumers.RunAtPowerEvent;
 import io.reactivex.Flowable;
+import static java.lang.Math.abs;
 
 public class Drivetrain implements Subsystem {
 
@@ -14,8 +15,8 @@ public class Drivetrain implements Subsystem {
   private final Flowable<LoopControllerEvent> y2;
 
   public Drivetrain() {
-    this.y1 = deadzone(InputFactory.instance().joystickY(0)).map((x) -> new RunAtPowerEvent(x));
-    this.y2 = deadzone(InputFactory.instance().joystickY(1)).map((x) -> new RunAtPowerEvent(x));
+    this.y1 = deadzone(InputFactory.instance().controllerY(0)).map((x) -> new RunAtPowerEvent(x));
+    this.y2 = deadzone(InputFactory.instance().controllerY2(0)).map((x) -> new RunAtPowerEvent(-x));
   }
 
   @Override
@@ -30,6 +31,6 @@ public class Drivetrain implements Subsystem {
   }
 
   private Flowable<Double> deadzone(Flowable<Double> input) {
-    return input.map((x) -> x < 0.1 ? 0.0 : x);
+    return input.map((x) -> abs(x) < 0.2 ? 0.0 : x);
   }
 }
