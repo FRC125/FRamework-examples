@@ -2,7 +2,6 @@ package com.nutrons.steamworks;
 
 import com.nutrons.framework.Subsystem;
 import com.nutrons.framework.consumers.ControllerEvent;
-import com.nutrons.framework.consumers.FollowEvent;
 import com.nutrons.framework.consumers.RunAtPowerEvent;
 import com.nutrons.framework.factories.InputManager;
 import com.nutrons.framework.factories.OutputFactory;
@@ -23,10 +22,6 @@ public class Drivetrain implements Subsystem {
   @Override
   public void registerSubscriptions() {
     OutputFactory out = OutputManager.factory();
-    Flowable.just(new FollowEvent(RobotMap.LEFT_DRIVE_MOTOR_A))
-        .subscribe(out.motor(RobotMap.LEFT_DRIVE_MOTOR_B));
-    Flowable.just(new FollowEvent(RobotMap.RIGHT_DRIVE_MOTOR_A))
-        .subscribe(out.motor(RobotMap.RIGHT_DRIVE_MOTOR_B));
     y1.subscribe(out.motor(RobotMap.LEFT_DRIVE_MOTOR_A));
     y2.subscribe(out.motor(RobotMap.RIGHT_DRIVE_MOTOR_A));
   }
