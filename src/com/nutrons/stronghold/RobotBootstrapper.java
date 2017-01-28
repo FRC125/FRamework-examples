@@ -28,7 +28,7 @@ public class RobotBootstrapper extends Robot {
   @Override
   protected StreamManager provideStreamManager() {
     StreamManager sm = new StreamManager(this);
-    sm.registerSubsystem(new Drivetrain(driverPad.joyY1(), driverPad.joyY2(),
+    sm.registerSubsystem(new Drivetrain(driverPad.joy1Y(), driverPad.joy2Y(),
         driveLeftA, driveRightA));
     return sm;
   }
