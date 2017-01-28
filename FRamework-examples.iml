@@ -26,7 +26,26 @@
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" type="SOURCES" />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="wpilib" level="project" />
+    <orderEntry type="module-library">
+          <library name="wpilib">
+            <CLASSES>
+              <root url="file://$MODULE_DIR$/wpilib/lib" />
+              <root url="file://$MODULE_DIR$/wpilib/userLibs" />
+            </CLASSES>
+            <JAVADOC>
+              <root url="file://$MODULE_DIR$/wpilib/userLibs/docs/ctre" />
+            </JAVADOC>
+            <NATIVE>
+              <root url="file://$MODULE_DIR$/wpilib/userLibs" />
+            </NATIVE>
+            <SOURCES>
+              <root url="file://$MODULE_DIR$/wpilib/lib" />
+            </SOURCES>
+            <jarDirectory url="file://$MODULE_DIR$/wpilib/lib" recursive="false" />
+            <jarDirectory url="file://$MODULE_DIR$/wpilib/userLibs" recursive="false" />
+            <jarDirectory url="file://$MODULE_DIR$/wpilib/lib" recursive="false" type="SOURCES" />
+          </library>
+        </orderEntry>
     <orderEntry type="module" module-name="FRamework" />
   </component>
 </module>
