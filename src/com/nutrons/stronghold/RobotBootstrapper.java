@@ -3,27 +3,33 @@ package com.nutrons.stronghold;
 import com.nutrons.framework.Robot;
 import com.nutrons.framework.StreamManager;
 import com.nutrons.framework.consumers.FollowerTalon;
-import com.nutrons.framework.consumers.LoopSpeedController;
 import com.nutrons.framework.consumers.Talon;
-import com.nutrons.framework.factories.OutputManager;
-import java.util.ArrayList;
-import java.util.List;
+import com.nutrons.framework.producers.WpiGamepad;
+import com.nutrons.framework.producers.WpiXboxGamepad;
 
 public class RobotBootstrapper extends Robot {
+  private Talon driveLeftA;
+  private Talon driveLeftB;
+  private Talon driveRightA;
+  private Talon driveRightB;
+  private WpiGamepad driverPad;
 
-  public RobotBootstrapper() {
-    List<LoopSpeedController> motors = new ArrayList<>();
-    motors.add(new Talon(RobotMap.LEFT_DRIVE_MOTOR_A));
-    motors.add(new FollowerTalon(RobotMap.LEFT_DRIVE_MOTOR_B, RobotMap.LEFT_DRIVE_MOTOR_A));
-    motors.add(new Talon(RobotMap.RIGHT_DRIVE_MOTOR_A));
-    motors.add(new FollowerTalon(RobotMap.RIGHT_DRIVE_MOTOR_B, RobotMap.RIGHT_DRIVE_MOTOR_A));
-    OutputManager.factory().setControllers(motors);
+  @Override
+  protected void constructStreams() {
+    this.driveLeftA = new Talon(RobotMap.LEFT_DRIVE_MOTOR_A);
+    this.driveLeftB = new FollowerTalon(RobotMap.LEFT_DRIVE_MOTOR_B,
+        RobotMap.LEFT_DRIVE_MOTOR_A);
+    this.driveRightA = new Talon(RobotMap.RIGHT_DRIVE_MOTOR_A);
+    this.driveRightB = new FollowerTalon(RobotMap.RIGHT_DRIVE_MOTOR_B,
+        RobotMap.RIGHT_DRIVE_MOTOR_A);
+    this.driverPad = new WpiXboxGamepad(0);
   }
 
   @Override
   protected StreamManager provideStreamManager() {
     StreamManager sm = new StreamManager(this);
-    sm.registerSubsystem(new Drivetrain());
+    sm.registerSubsystem(new Drivetrain(driverPad.joyY1(), driverPad.joyY2(),
+        driveLeftA, driveRightA));
     return sm;
   }
 }

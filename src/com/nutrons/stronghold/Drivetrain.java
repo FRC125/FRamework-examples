@@ -1,29 +1,31 @@
 package com.nutrons.stronghold;
 
+import static java.lang.Math.abs;
+
 import com.nutrons.framework.Subsystem;
 import com.nutrons.framework.consumers.ControllerEvent;
 import com.nutrons.framework.consumers.RunAtPowerEvent;
-import com.nutrons.framework.factories.InputManager;
-import com.nutrons.framework.factories.OutputFactory;
-import com.nutrons.framework.factories.OutputManager;
 import io.reactivex.Flowable;
-import static java.lang.Math.abs;
+import io.reactivex.functions.Consumer;
 
-public class Drivetrain implements Subsystem {
-
+class Drivetrain implements Subsystem {
   private final Flowable<ControllerEvent> y1;
   private final Flowable<ControllerEvent> y2;
+  private final Consumer<ControllerEvent> leftDrive;
+  private final Consumer<ControllerEvent> rightDrive;
 
-  public Drivetrain() {
-    this.y1 = deadzone(InputManager.factory().controllerY(0)).map((x) -> new RunAtPowerEvent(x));
-    this.y2 = deadzone(InputManager.factory().controllerY2(0)).map((x) -> new RunAtPowerEvent(-x));
+  Drivetrain(Flowable<Double> y1, Flowable<Double> y2,
+                    Consumer<ControllerEvent> leftDrive, Consumer<ControllerEvent> rightDrive) {
+    this.y1 = deadzone(y1).map((x) -> new RunAtPowerEvent(x));
+    this.y2 = deadzone(y2).map((x) -> new RunAtPowerEvent(-x));
+    this.leftDrive = leftDrive;
+    this.rightDrive = rightDrive;
   }
 
   @Override
   public void registerSubscriptions() {
-    OutputFactory out = OutputManager.factory();
-    y1.subscribe(out.motor(RobotMap.LEFT_DRIVE_MOTOR_A));
-    y2.subscribe(out.motor(RobotMap.RIGHT_DRIVE_MOTOR_A));
+    y1.subscribe(leftDrive);
+    y2.subscribe(rightDrive);
   }
 
   private Flowable<Double> deadzone(Flowable<Double> input) {
