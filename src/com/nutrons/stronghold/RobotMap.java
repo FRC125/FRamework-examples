@@ -1,4 +1,4 @@
-package com.nutrons.steamworks;
+package com.nutrons.stronghold;
 
 public class RobotMap {
   public static final int LEFT_DRIVE_MOTOR_A = 4;
