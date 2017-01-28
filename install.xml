@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project name="WPILib Installation" default="install">
-  <ant antfile="FRamework/install.xml" target="install" useNativeBasedir="true" />
+
   <!-- Load the build properties file. -->
   <property file="build.properties"/>
 
