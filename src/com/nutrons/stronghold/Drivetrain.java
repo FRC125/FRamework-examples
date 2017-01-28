@@ -3,8 +3,8 @@ package com.nutrons.stronghold;
 import static java.lang.Math.abs;
 
 import com.nutrons.framework.Subsystem;
-import com.nutrons.framework.consumers.ControllerEvent;
-import com.nutrons.framework.consumers.RunAtPowerEvent;
+import com.nutrons.framework.controllers.ControllerEvent;
+import com.nutrons.framework.controllers.RunAtPowerEvent;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Consumer;
 

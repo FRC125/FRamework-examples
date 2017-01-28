@@ -2,8 +2,8 @@ package com.nutrons.stronghold;
 
 import com.nutrons.framework.Robot;
 import com.nutrons.framework.StreamManager;
-import com.nutrons.framework.consumers.FollowerTalon;
-import com.nutrons.framework.consumers.Talon;
+import com.nutrons.framework.controllers.FollowerTalon;
+import com.nutrons.framework.controllers.Talon;
 import com.nutrons.framework.producers.WpiGamepad;
 import com.nutrons.framework.producers.WpiXboxGamepad;
 
@@ -29,7 +29,7 @@ public class RobotBootstrapper extends Robot {
   protected StreamManager provideStreamManager() {
     StreamManager sm = new StreamManager(this);
     sm.registerSubsystem(new Drivetrain(driverPad.joy1Y(), driverPad.joy2Y(),
-        driveLeftA, driveRightA));
+        driveLeftA.consumer(), driveRightA.consumer()));
     return sm;
   }
 }
