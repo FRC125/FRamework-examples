@@ -13,28 +13,46 @@ public class Turret implements Subsystem{
     private final Flowable<Double> angle;
     private final Consumer<ControllerEvent> hoodMaster;
     private final FollowerTalon hoodSlave;
-    private final Flowable<ControllerEvent> PIDControllerA;
+    private final Flowable<ControllerEvent> PIDControllerMotors;
+
+    private final Consumer<ControllerEvent> shooter;
+    private Flowable<ControllerEvent> PIDControllerShooter;
+    private Flowable<Double> MOTOR_POWER;
+
     private Settings PIDSettings;
     private final double initial = 0.0; //If the PID settings doesn't emit any values, then it defaults to 0.0
 
     private Flowable<Double> arcLength;
     private static final double HOOD_RADIUS_IN = 10.5;
 
-    Turret(Flowable<Double> angle, Consumer<ControllerEvent> master, FollowerTalon slave){
+    Turret(Flowable<Double> angle, Consumer<ControllerEvent> master, FollowerTalon slave,
+           Flowable<Boolean> triggerValues, Consumer<ControllerEvent> shooter){
         this.angle = angle;
         this.hoodMaster = master;
         this.hoodSlave = slave;
         arcLength = this.angle.map( x -> (x*2*Math.PI*HOOD_RADIUS_IN) / (360) );
 
-        this.PIDControllerA = FlowOperators.deadzone(arcLength).map((x) -> new LoopPropertiesEvent(x,
-                PIDSettings.getProperty("P").blockingMostRecent(initial).iterator().next(),
-                PIDSettings.getProperty("I").blockingMostRecent(initial).iterator().next(),
-                PIDSettings.getProperty("D").blockingMostRecent(initial).iterator().next(),
+        this.PIDControllerMotors = FlowOperators.deadzone(arcLength).map((x) -> new LoopPropertiesEvent(x,
+                PIDSettings.getProperty("P_Turret").blockingMostRecent(initial).iterator().next(),
+                PIDSettings.getProperty("I_Turret").blockingMostRecent(initial).iterator().next(),
+                PIDSettings.getProperty("D_Turret").blockingMostRecent(initial).iterator().next(),
                 0.0));
+
+        this.shooter = shooter;
+        MOTOR_POWER = PIDSettings.getProperty("motorPower");
+
+        if(triggerValues.blockingLatest().iterator().next()){
+            this.PIDControllerShooter = FlowOperators.deadzone(MOTOR_POWER).map((x) -> new LoopPropertiesEvent(x,
+                    PIDSettings.getProperty("P_Shooter").blockingMostRecent(initial).iterator().next(),
+                    PIDSettings.getProperty("I_Shooter").blockingMostRecent(initial).iterator().next(),
+                    PIDSettings.getProperty("D_Shooter").blockingMostRecent(initial).iterator().next(),
+                    0.0));
+        }
     }
 
     @Override
     public void registerSubscriptions() {
-        PIDControllerA.subscribe(hoodMaster);
+        PIDControllerMotors.subscribe(hoodMaster);
+        PIDControllerShooter.subscribe(shooter);
     }
 }
