@@ -1,9 +1,9 @@
 package com.nutrons.stronghold;
 
 import com.nutrons.framework.Subsystem;
-import com.nutrons.framework.consumers.ControllerEvent;
-import com.nutrons.framework.consumers.FollowerTalon;
-import com.nutrons.framework.consumers.LoopPropertiesEvent;
+import com.nutrons.framework.controllers.ControllerEvent;
+import com.nutrons.framework.controllers.FollowerTalon;
+import com.nutrons.framework.controllers.LoopPropertiesEvent;
 import com.nutrons.framework.subsystems.Settings;
 import com.nutrons.framework.util.FlowOperators;
 import io.reactivex.Flowable;
