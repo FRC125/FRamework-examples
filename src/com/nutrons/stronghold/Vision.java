@@ -14,7 +14,7 @@ public class Vision{
                 .filter(x -> x.length == 10)
                 .map(x -> new String(x, "UTF-8"))
                 .map(x -> x.split(":")).filter(x -> x.length == 2)
-                .map(x -> new Double[]{Double.valueOf(x[0]), Double.valueOf(x[1])});
+                .map(x -> new Double[]{Double.valueOf(x[0]), Double.valueOf(x[1])}); //Returns a double array[angle, distance]
 
         this.angle = dataStreamDouble.map(x -> x[0]);
         this.distance = dataStreamDouble.map(x -> x[1]);
