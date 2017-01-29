@@ -29,7 +29,7 @@ public class RobotBootstrapper extends Robot {
   protected StreamManager provideStreamManager() {
     StreamManager sm = new StreamManager(this);
     sm.registerSubsystem(new Drivetrain(driverPad.joy1Y(), driverPad.joy2Y(),
-        driveLeftA.consumer(), driveRightA.consumer()));
+        driveLeftA, driveRightA));
     return sm;
   }
 }
