@@ -3,6 +3,7 @@ package com.nutrons.stronghold;
 import com.nutrons.framework.Subsystem;
 import com.nutrons.framework.consumers.ControllerEvent;
 import com.nutrons.framework.consumers.LoopPropertiesEvent;
+import com.nutrons.framework.util.FlowOperators;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Consumer;
 
@@ -29,17 +30,13 @@ public class Turret implements Subsystem{
         this.hoodB = rightDrive;
         arcLength = this.angle.map(x -> x / (360*2*Math.PI*HOOD_RADIUS_IN));
 
-        this.PIDControllerA = deadzone(arcLength).map((x) -> new LoopPropertiesEvent(x, P, I, D, F));
-        this.PIDControllerB = deadzone(arcLength).map((x) -> new LoopPropertiesEvent(x, P, I, D, F));
+        this.PIDControllerA = FlowOperators.deadzone(arcLength).map((x) -> new LoopPropertiesEvent(x, P, I, D, F));
+        this.PIDControllerB = FlowOperators.deadzone(arcLength).map((x) -> new LoopPropertiesEvent(x, P, I, D, F));
     }
 
     @Override
     public void registerSubscriptions() {
         PIDControllerA.subscribe(hoodA);
         PIDControllerB.subscribe(hoodB);
-    }
-
-    private Flowable<Double> deadzone(Flowable<Double> input) {
-        return input.map((x) -> abs(x) < 0.2 ? 0.0 : x);
     }
 }
