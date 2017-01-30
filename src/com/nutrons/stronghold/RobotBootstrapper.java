@@ -3,8 +3,8 @@ package com.nutrons.stronghold;
 import com.nutrons.framework.Robot;
 import com.nutrons.framework.StreamManager;
 import com.nutrons.framework.controllers.Talon;
-import com.nutrons.framework.producers.WpiGamepad;
-import com.nutrons.framework.producers.WpiXboxGamepad;
+import com.nutrons.framework.inputs.WpiGamepad;
+import com.nutrons.framework.inputs.WpiXboxGamepad;
 
 public class RobotBootstrapper extends Robot {
   private Talon driveLeftA;
