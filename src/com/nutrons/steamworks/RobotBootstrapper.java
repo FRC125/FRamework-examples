@@ -38,7 +38,7 @@ public class RobotBootstrapper extends Robot {
         this.driverPad = new WpiXboxGamepad(0);
         this.hoodMaster = new Talon(RobotMap.HOOD_MOTOR_A);
         this.hoodSlave = new FollowerTalon(RobotMap.HOOD_MOTOR_B, RobotMap.HOOD_MOTOR_A);
-        this.serial = new Serial(20, 10, '\n');
+        this.serial = new Serial(20, 10);
         this.vision = new Vision(serial.dataStream());
         this.shooter = new Talon(RobotMap.SHOOTER);
         this.fireButton = driverPad.new WpiButton(driverPad, RobotMap.SHOOT_BUTTON);
