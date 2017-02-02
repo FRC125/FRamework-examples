@@ -32,14 +32,14 @@ public class RobotBootstrapper extends Robot {
         this.driveRollers = new Talon(RobotMap.INTAKE_MOTOR);
         this.operatorPad = new WpiXboxGamepad(RobotMap.OP_PAD);
 
+    }
     @Override
     protected StreamManager provideStreamManager() {
-
         StreamManager sm = new StreamManager(this);
-        sm.registerSubsystem(new Drivetrain(driverPad.joy1Y(), driverPad.joy2X(),
-                leftLeader, rightLeader) new Intake(controller.joy2Y(), driveRollers));
-        return sm;
-
-    }
+            sm.registerSubsystem(new Drivetrain(driverPad.joy1Y(), driverPad.joy2X(),
+                    leftLeader, rightLeader));
+        sm.registerSubsystem(new Intake(operatorPad.joy2Y(), driveRollers));
+            return sm;
+        }
 }
 
