@@ -33,46 +33,28 @@ public class Turret implements Subsystem {
         this.angle = angle;
         this.hoodMaster = master;
         this.hoodSlave = slave;
-        arcLength = this.angle.map(x -> (x * Math.PI * (2 * HOOD_RADIUS_IN)) / 360);
-
+        arcLength = this.angle.map(x -> (x * Math.PI * (2 * HOOD_RADIUS_IN)) / 360); //Calculates arc length turret needs to travel to reach a certain angle,
+                                                                                     //Finds ratio of angle to 360 and creates a proportion to ratio with arc length to full circumference
         this.PIDControllerMotors = FlowOperators
                 .deadband(arcLength)
                 .map((x) -> new LoopPropertiesEvent(
                         x,
-                        PIDSettings.getProperty("P_Turret") //Gets value of P for turret from SmartDashboard
-                                .blockingMostRecent(initial)
-                                .iterator()
-                                .next(),
-                        PIDSettings.getProperty("I_Turret")
-                                .blockingMostRecent(initial)
-                                .iterator()
-                                .next(),
-                        PIDSettings.getProperty("D_Turret")
-                                .blockingMostRecent(initial)
-                                .iterator()
-                                .next(),
+                        FlowOperators.getLastValue(PIDSettings.getProperty("P_Turret")),
+                        FlowOperators.getLastValue(PIDSettings.getProperty("I_Turret")),
+                        FlowOperators.getLastValue(PIDSettings.getProperty("D_Turret")),
                         0.0));
 
         this.shooter = shooter;
         MOTOR_POWER = PIDSettings.getProperty("motorPower");
 
-        if (triggerValues.blockingLatest().iterator().next()) {
+        if (FlowOperators.getLastValue(triggerValues)) {
             this.PIDControllerShooter = FlowOperators
                     .deadband(MOTOR_POWER)
                     .map((x) -> new LoopPropertiesEvent(
                             x,
-                            PIDSettings.getProperty("P_Shooter")
-                                    .blockingMostRecent(initial)
-                                    .iterator()
-                                    .next(),
-                            PIDSettings.getProperty("I_Shooter")
-                                    .blockingMostRecent(initial)
-                                    .iterator()
-                                    .next(),
-                            PIDSettings.getProperty("D_Shooter")
-                                    .blockingMostRecent(initial)
-                                    .iterator()
-                                    .next(),
+                            FlowOperators.getLastValue(PIDSettings.getProperty("P_Shooter")),
+                            FlowOperators.getLastValue(PIDSettings.getProperty("I_Shooter")),
+                            FlowOperators.getLastValue(PIDSettings.getProperty("D_Shooter")),
                             0.0));
         }
     }

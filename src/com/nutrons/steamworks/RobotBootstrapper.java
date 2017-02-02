@@ -6,6 +6,7 @@ import com.nutrons.framework.controllers.ControllerMode;
 import com.nutrons.framework.controllers.FollowerTalon;
 import com.nutrons.framework.controllers.LoopModeEvent;
 import com.nutrons.framework.controllers.Talon;
+import com.nutrons.framework.inputs.WpiButton;
 import com.nutrons.framework.producers.Serial;
 import com.nutrons.framework.inputs.WpiGamepad;
 import com.nutrons.framework.inputs.WpiXboxGamepad;
@@ -23,7 +24,7 @@ public class RobotBootstrapper extends Robot {
     private Talon shooter;
 
     private WpiGamepad driverPad;
-    private WpiGamepad.WpiButton fireButton;
+    private WpiButton fireButton;
     private Serial serial;
     private Vision vision;
 
@@ -41,7 +42,7 @@ public class RobotBootstrapper extends Robot {
         this.serial = new Serial(20, 10);
         this.vision = new Vision(serial.dataStream());
         this.shooter = new Talon(RobotMap.SHOOTER);
-        this.fireButton = driverPad.new WpiButton(driverPad, RobotMap.SHOOT_BUTTON);
+        this.fireButton = new WpiButton(driverPad, RobotMap.SHOOT_BUTTON);
         this.velocityMode = new LoopModeEvent(ControllerMode.LOOP_SPEED);
         velocityMode.actOn(shooter);
     }
