@@ -33,8 +33,11 @@ public class Turret implements Subsystem {
         this.angle = angle;
         this.hoodMaster = master;
         this.hoodSlave = slave;
-        arcLength = this.angle.map(x -> (x * Math.PI * (2 * HOOD_RADIUS_IN)) / 360); //Calculates arc length turret needs to travel to reach a certain angle,
-                                                                                     //Finds ratio of angle to 360 and creates a proportion to ratio with arc length to full circumference
+
+        //Calculates arc length turret needs to travel to reach a certain angle,
+        //Finds ratio of angle to 360 and creates a proportion to ratio with arc length to full circumference
+        arcLength = this.angle.map(x -> (x * Math.PI * (2 * HOOD_RADIUS_IN)) / 360);
+
         this.PIDControllerMotors = FlowOperators
                 .deadband(arcLength)
                 .map((x) -> new LoopPropertiesEvent(
