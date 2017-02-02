@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="FRamework/src"/>
+	<classpathentry kind="src" path="FRamework/test"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="FRamework/wpilib/ant/ant-classloadertask.jar"/>
+	<classpathentry exported="true" kind="lib" path="FRamework/wpilib/ant/ant-contrib.jar"/>
+	<classpathentry exported="true" kind="lib" path="FRamework/wpilib/ant/jsch-0.1.50.jar"/>
+	<classpathentry exported="true" kind="lib" path="FRamework/wpilib/lib/cscore-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="FRamework/wpilib/lib/cscore.jar"/>
+	<classpathentry exported="true" kind="lib" path="FRamework/wpilib/lib/NetworkTables-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="FRamework/wpilib/lib/NetworkTables.jar"/>
+	<classpathentry exported="true" kind="lib" path="FRamework/wpilib/lib/opencv-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="FRamework/wpilib/lib/opencv.jar"/>
+	<classpathentry exported="true" kind="lib" path="FRamework/wpilib/lib/WPILib-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="FRamework/wpilib/lib/WPILib.jar"/>
+	<classpathentry exported="true" kind="lib" path="FRamework/wpilib/userLibs/TalonSRXLibJava.jar"/>
+	<classpathentry exported="true" kind="lib" path="wpilib/ant/ant-classloadertask.jar"/>
+	<classpathentry exported="true" kind="lib" path="wpilib/ant/ant-contrib.jar"/>
+	<classpathentry exported="true" kind="lib" path="wpilib/ant/jsch-0.1.50.jar"/>
+	<classpathentry exported="true" kind="lib" path="wpilib/lib/cscore-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="wpilib/lib/cscore.jar"/>
+	<classpathentry exported="true" kind="lib" path="wpilib/lib/NetworkTables-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="wpilib/lib/NetworkTables.jar"/>
+	<classpathentry exported="true" kind="lib" path="wpilib/lib/opencv-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="wpilib/lib/opencv.jar"/>
+	<classpathentry exported="true" kind="lib" path="wpilib/lib/WPILib-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="wpilib/lib/WPILib.jar"/>
+	<classpathentry exported="true" kind="lib" path="wpilib/userLibs/TalonSRXLibJava.jar"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/FRamework"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
