@@ -21,7 +21,7 @@ public class Shooter implements Subsystem {
                    Talon shooterMotor1,
                    Talon shooterMotor2) {
 
-        this.runShooter = Flowable.just(new LoopPropertiesEvent (3250.0, 0.05, 0.0, 0.33, 0.029));
+        this.runShooter = Flowable.just(new LoopPropertiesEvent (2950.0, 0.05, 0.0, 0.33, 0.035));
         this.shooterMotor1 = shooterMotor1;
         this.shooterMotor2 = shooterMotor2;
     }
