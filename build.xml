@@ -48,7 +48,8 @@
   </target>
   <target name="checkstyle"
           description="Generates a report of code convention violations."
-  	depends="init-checkstyle">
+  	  depends="init-checkstyle">
+    <mkdir dir="test" />
     <!-- See http://checkstyle.sourceforge.net/anttask.html for full options of using checkstyle with ant-->
     <checkstyle config="docs/google_checks.xml"
                 failureProperty="checkstyle.failure"
@@ -60,8 +61,14 @@
     <fail message="Style failure detected, check." if="checkstyle.failure" />
   </target>
 
+  <target name="clean" description="Clean up all build and distribution artifacts.">
+    <ant antfile="FRamework/build.xml" target="clean" useNativeBasedir="true" inheritAll="false" />
+    <delete dir="${build.dir}"/>
+    <delete dir="${dist.dir}"/>
+  </target>
+  
   <target name="compile" description="Try to override WPILib's compile step">
-    <ant antfile="FRamework/build.xml" target="compile" useNativeBasedir="true" />
+    <ant antfile="FRamework/build.xml" target="compile" useNativeBasedir="true" inheritAll="false" />
     <mkdir dir="${build.dir}"/>
     <path id="classpath.path">
       <fileset dir="${userLibs.dir}" includes="*.jar"/>
@@ -89,6 +96,8 @@
   </target>
 
   <target name="test" depends="checkstyle,compile,init-ivy">
+    <mkdir dir="test" />
+    <ant antfile="FRamework/build.xml" target="test" useNativeBasedir="true" inheritAll="false" />
     <path id="classpath.path">
       <fileset dir="${userLibs}" erroronmissingdir="false"/>
       <fileset dir="lib/" includes="*.jar"/> <!-- include everything, I did not remove wpi's specific includes-->
