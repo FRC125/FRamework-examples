@@ -6,6 +6,7 @@ import com.nutrons.framework.controllers.RunAtPowerEvent;
 import com.nutrons.framework.util.FlowOperators;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Consumer;
+import com.nutrons.framework.controllers.Talon;
 
 class Drivetrain implements Subsystem {
     private final Flowable<ControllerEvent> joystickStream1;

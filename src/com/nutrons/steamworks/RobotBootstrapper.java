@@ -6,10 +6,10 @@ import com.nutrons.framework.controllers.ControllerMode;
 import com.nutrons.framework.controllers.FollowerTalon;
 import com.nutrons.framework.controllers.LoopModeEvent;
 import com.nutrons.framework.controllers.Talon;
-import com.nutrons.framework.inputs.WpiButton;
 import com.nutrons.framework.producers.Serial;
 import com.nutrons.framework.inputs.WpiGamepad;
 import com.nutrons.framework.inputs.WpiXboxGamepad;
+import io.reactivex.Flowable;
 
 public class RobotBootstrapper extends Robot {
     private Talon driveLeftA;
@@ -24,7 +24,7 @@ public class RobotBootstrapper extends Robot {
     private Talon shooter;
 
     private WpiGamepad driverPad;
-    private WpiButton fireButton;
+    private Flowable<Boolean> fireButtonStream;
     private Serial serial;
     private Vision vision;
 
@@ -42,7 +42,7 @@ public class RobotBootstrapper extends Robot {
         this.serial = new Serial(20, 10);
         this.vision = new Vision(serial.dataStream());
         this.shooter = new Talon(RobotMap.SHOOTER);
-        this.fireButton = new WpiButton(driverPad, RobotMap.SHOOT_BUTTON);
+        this.fireButtonStream = driverPad.button(RobotMap.SHOOT_BUTTON);
         this.velocityMode = new LoopModeEvent(ControllerMode.LOOP_SPEED);
         velocityMode.actOn(shooter);
     }
@@ -51,9 +51,9 @@ public class RobotBootstrapper extends Robot {
     protected StreamManager provideStreamManager() {
         StreamManager sm = new StreamManager(this);
         sm.registerSubsystem(new Drivetrain(driverPad.joy1Y(), driverPad.joy2Y(),
-                driveLeftA.output(), driveRightA.output()));
-        sm.registerSubsystem(new Turret(vision.getAngle(), hoodMaster.output(),
-                hoodSlave, fireButton.values(), shooter.output()));
+                driveLeftA, driveRightA));
+        sm.registerSubsystem(new Turret(vision.getAngle(), hoodMaster,
+                hoodSlave, fireButtonStream, shooter));
         return sm;
     }
 }
