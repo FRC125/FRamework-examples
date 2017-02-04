@@ -2,7 +2,7 @@ package com.nutrons.steamworks;
 
 import com.nutrons.framework.Subsystem;
 import com.nutrons.framework.controllers.ControllerEvent;
-import com.nutrons.framework.controllers.FollowerTalon;
+//import com.nutrons.framework.controllers.FollowerTalon;
 import com.nutrons.framework.controllers.LoopPropertiesEvent;
 import com.nutrons.framework.subsystems.Settings;
 import com.nutrons.framework.util.FlowOperators;
@@ -12,7 +12,7 @@ import io.reactivex.functions.Consumer;
 public class Turret implements Subsystem {
     private final Flowable<Double> angle;
     private final Consumer<ControllerEvent> hoodMaster;
-    private final FollowerTalon hoodSlave;
+    //private final FollowerTalon hoodSlave;
     private final Flowable<ControllerEvent> PIDControllerMotors;
 
     private final Consumer<ControllerEvent> shooter;
@@ -27,12 +27,12 @@ public class Turret implements Subsystem {
 
     Turret(Flowable<Double> angle,
            Consumer<ControllerEvent> master,
-           FollowerTalon slave,
+           //FollowerTalon slave,
            Flowable<Boolean> triggerValues,
            Consumer<ControllerEvent> shooter) {
         this.angle = angle;
         this.hoodMaster = master;
-        this.hoodSlave = slave;
+        //this.hoodSlave = slave;
 
         //Calculates arc length turret needs to travel to reach a certain angle,
         //Finds ratio of angle to 360 and creates a proportion to ratio with arc length to full circumference
