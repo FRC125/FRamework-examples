@@ -30,7 +30,7 @@ public class RobotBootstrapper extends Robot {
     private Flowable<Boolean> fireButtonStream;
     private Serial serial;
     private Vision vision;**/
-    //private WpiSmartDashboard sd;
+    private WpiSmartDashboard sd;
 
     @Override
     protected void constructStreams() {
@@ -49,6 +49,7 @@ public class RobotBootstrapper extends Robot {
         this.fireButtonStream = driverPad.button(RobotMap.SHOOT_BUTTON);
         this.velocityMode = new LoopModeEvent(ControllerMode.LOOP_SPEED);
         velocityMode.actOn(shooter);**/
+        this.sd = new WpiSmartDashboard();
     }
 
     @Override
@@ -58,6 +59,7 @@ public class RobotBootstrapper extends Robot {
                 driveLeftA, driveRightA));
         sm.registerSubsystem(new Turret(vision.getAngle(), hoodMaster,
                 hoodSlave, fireButtonStream, shooter));**/
+        sm.registerSubsystem(sd);
         sm.registerSubsystem(new Logging());
         return sm;
     }

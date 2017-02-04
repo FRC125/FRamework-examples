@@ -26,10 +26,8 @@ public class Logging implements Subsystem {
         this.angles = vision.getAngle();
         this.distances = vision.getDistance();
 
-        this.angleLogger = sd.getProducer("angle");
-        this.distanceLogger = sd.getProducer("distance");
-        SmartDashboard.putNumber("angle", 10.0);
-        SmartDashboard.putNumber("distance", FlowOperators.getLastValue(vision.getDistance()));
+        this.angleLogger = sd.getTextField("angle");
+        this.distanceLogger = sd.getTextField("distance");
     }
     @Override
     public void registerSubscriptions() {
