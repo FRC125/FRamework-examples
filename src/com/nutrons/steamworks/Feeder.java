@@ -1,33 +1,25 @@
 package com.nutrons.steamworks;
 
-
 import com.nutrons.framework.Subsystem;
 import com.nutrons.framework.controllers.ControllerEvent;
-import com.nutrons.framework.controllers.LoopPropertiesEvent;
 import com.nutrons.framework.controllers.RunAtPowerEvent;
-import com.nutrons.framework.controllers.Talon;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Consumer;
-import org.reactivestreams.Subscriber;
-
-
-import static java.lang.Math.abs;
 
 /**
  * Created by Brian on 1/31/2017.
  */
-class Intake implements Subsystem {
+public class Feeder implements Subsystem {
     private final Flowable<ControllerEvent> intakeSpeed;
-    private final Consumer<ControllerEvent> driveRollers;
+    private final Consumer<ControllerEvent> intakeController;
 
-    Intake(Flowable<Double> intakeSpeed, Consumer<ControllerEvent> driveRollers) {
+    public Feeder(Consumer<ControllerEvent> intakeController) {
         this.intakeSpeed = Flowable.just(new RunAtPowerEvent(1.0));
-        this.driveRollers = driveRollers;
+        this.intakeController = intakeController;
     }
 
     @Override
     public void registerSubscriptions() {
-        intakeSpeed.subscribe(driveRollers);
+        intakeSpeed.subscribe(intakeController);
     }
-
 }
