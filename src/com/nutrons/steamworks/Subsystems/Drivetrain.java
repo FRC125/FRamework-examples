@@ -1,62 +1,45 @@
 package com.nutrons.steamworks.Subsystems;
 
+import static io.reactivex.Flowable.combineLatest;
 import static java.lang.Math.*;
 
 import com.nutrons.framework.Subsystem;
 import com.nutrons.framework.controllers.ControllerEvent;
+import com.nutrons.framework.controllers.PIDGyro;
 import com.nutrons.framework.controllers.RunAtPowerEvent;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Consumer;
 
 public class
 
 Drivetrain implements Subsystem {
-    private final Flowable<ControllerEvent> leftJoyY;
-    private final Flowable<ControllerEvent> rightJoyX;
+    private final Flowable<Double> throttle;
+    private final Flowable<Double> yaw;
     private final Consumer<ControllerEvent> leftDrive;
     private final Consumer<ControllerEvent> rightDrive;
-    private double x;
-    private double speed;
-    private double wheel;
+    private double coeff = 0.6;
+    private final PIDGyro headingGyro;
 
-    public Drivetrain(Flowable<Double> leftJoyY, Flowable<Double> rightJoYX,
-               Consumer<ControllerEvent> leftDrive, Consumer<ControllerEvent> rightDrive) {
-        deadzone(leftJoyY).subscribe(x -> speed = x);
-        deadzone(rightJoYX).subscribe(x -> wheel  = x);
-        this.leftJoyY = deadzone(leftJoyY).map((x) -> new RunAtPowerEvent(x));
-        this.rightJoyX = deadzone(rightJoYX).map((x) -> new RunAtPowerEvent(-x));
+
+    public Drivetrain(Flowable<Double> throttle, Flowable<Double> yaw,
+               Consumer<ControllerEvent> leftDrive, Consumer<ControllerEvent> rightDrive, Flowable<Double> headingGyro) {
+
+        this.throttle = deadzone(throttle);
+        this.yaw = deadzone(yaw);
         this.leftDrive = leftDrive;
         this.rightDrive = rightDrive;
-    }
-
-
-    public void drive(double leftPower, double rightPower) {
-        try {
-            leftDrive.accept(new RunAtPowerEvent(leftPower));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            rightDrive.accept(new RunAtPowerEvent(rightPower));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public void driveCheesy() {
-        double coeff = 1.0;
-        double invert = 1.0;
-
-        wheel = wheel * 0.6;
-        drive(((speed * invert) - (wheel)) * coeff, ((speed * invert) + (wheel)) * coeff);
+        this.headingGyro = new PIDGyro(0.0, 0.0, 0.0, 0.0);
     }
 
     private Flowable<Double> deadzone(Flowable<Double> input) {
         return input.map((x) -> abs(x) < 0.2 ? 0.0 : x);
     }
 
-
     @Override
     public void registerSubscriptions() {
-
+        combineLatest(throttle, yaw,(x, y) -> x + y).map(x -> x * coeff).map(RunAtPowerEvent::new).subscribe(leftDrive);
+        combineLatest(throttle, yaw,(x, y) -> x - y).map(x -> x * coeff).map(RunAtPowerEvent::new).subscribe(rightDrive);
+        headingGyro.
     }
 }

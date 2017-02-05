@@ -9,7 +9,9 @@ public class RobotMap {
     public static final int INTAKE_MOTOR = 3;
 
     // Controllers
-    public static final int DRIVER_PAD = 0;
-    public static final int OP_PAD = 1;
+    public static final int DRIVER_PAD = 1;
+    public static final int OP_PAD = 0;
 
+    // PIDGyro
+    public static final int HEADING_GYRO = 0;
 }
