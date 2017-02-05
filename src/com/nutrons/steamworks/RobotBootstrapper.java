@@ -16,7 +16,7 @@ public class RobotBootstrapper extends Robot {
     @Override
     protected void constructStreams() {
         this.TopHopperMotor = new Talon(RobotMap.TOP_HOPPER_MOTOR);
-        this.SpinHopperMotor =  new Talon(RobotMap.SPIN_HOPPER_MOTOR,this.TopHopperMotor);
+        this.SpinHopperMotor = new Talon(RobotMap.SPIN_HOPPER_MOTOR, this.TopHopperMotor);
         this.intakeController = new Talon(RobotMap.INTAKE_MOTOR);
         this.shooterMotor1 = new Talon(RobotMap.SHOOTER_MOTOR_1);
         this.shooterMotor2 = new Talon(RobotMap.SHOOTER_MOTOR_2, this.shooterMotor1);

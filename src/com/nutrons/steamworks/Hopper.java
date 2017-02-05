@@ -25,7 +25,8 @@ public class Hopper implements Subsystem {
     }
 
 
-
     @Override
-    public void registerSubscriptions() {runHopper.subscribe(hopperController);}
+    public void registerSubscriptions() {
+        runHopper.subscribe(hopperController);
+    }
 }
