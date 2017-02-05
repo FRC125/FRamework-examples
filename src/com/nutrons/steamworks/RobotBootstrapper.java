@@ -12,19 +12,19 @@ public class RobotBootstrapper extends Robot {
     private Talon shooterMotor2;
 
     @Override
-    protected void constructStreams(){
+    protected void constructStreams() {
         this.intakeController = new Talon(RobotMap.INTAKE_MOTOR);
         this.shooterMotor1 = new Talon(RobotMap.SHOOTER_MOTOR_1);
         this.shooterMotor2 = new Talon(RobotMap.SHOOTER_MOTOR_2, this.shooterMotor1);
         this.controller = new WpiXboxGamepad(0);
-    this.enabledStream();
+        this.enabledStream();
     }
 
     @Override
     protected StreamManager provideStreamManager() {
-       StreamManager sm = new StreamManager(this);
-       sm.registerSubsystem( new Shooter(shooterMotor1));
-       sm.registerSubsystem( new Feeder(intakeController));
-       return sm;
+        StreamManager sm = new StreamManager(this);
+        sm.registerSubsystem(new Shooter(shooterMotor1));
+        sm.registerSubsystem(new Feeder(intakeController));
+        return sm;
     }
 }

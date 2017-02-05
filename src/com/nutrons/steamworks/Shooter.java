@@ -14,7 +14,7 @@ public class Shooter implements Subsystem {
     private final Flowable<ControllerEvent> runShooter;
     private final Consumer<ControllerEvent> shooterController;
 
-    public Shooter(Consumer<ControllerEvent> shooterController){
+    public Shooter(Consumer<ControllerEvent> shooterController) {
         this.runShooter = Flowable.just(new LoopPropertiesEvent(2950.0, 0.05, 0.0, 0.33, 0.035));
         this.shooterController = shooterController;
     }
