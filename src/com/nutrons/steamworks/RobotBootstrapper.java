@@ -3,17 +3,13 @@ package com.nutrons.steamworks;
 import com.ctre.CANTalon;
 import com.nutrons.framework.Robot;
 import com.nutrons.framework.StreamManager;
-import com.nutrons.framework.controllers.ControllerEvent;
-import com.nutrons.framework.controllers.ControllerMode;
 import com.nutrons.framework.controllers.LoopModeEvent;
 import com.nutrons.framework.controllers.Talon;
 import com.nutrons.framework.inputs.Serial;
 import com.nutrons.framework.inputs.WpiGamepad;
 import com.nutrons.framework.inputs.WpiXboxGamepad;
 import com.nutrons.framework.subsystems.WpiSmartDashboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import io.reactivex.Flowable;
-import io.reactivex.functions.Consumer;
 
 public class RobotBootstrapper extends Robot {
     private Talon driveLeftA;
