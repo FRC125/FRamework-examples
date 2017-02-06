@@ -28,7 +28,7 @@ public class RobotBootstrapper extends Robot {
 
     private WpiGamepad driverPad;
     private Flowable<Boolean> fireButtonStream;
-    private Serial serial;
+    public static Serial serial;
     private Vision vision;
     private WpiSmartDashboard sd;
 
@@ -42,7 +42,7 @@ public class RobotBootstrapper extends Robot {
                 RobotMap.RIGHT_DRIVE_MOTOR_A);**/
         //this.driverPad = new WpiXboxGamepad(0);
         this.hoodMaster = new Talon(RobotMap.HOOD_MOTOR_A);
-        hoodMaster.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
+        hoodMaster.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
         hoodMaster.configNominalOutputVoltage(+0f, -0f);
         hoodMaster.configPeakOutputVoltage(+12f, -12f);
         hoodMaster.setProfile(0);

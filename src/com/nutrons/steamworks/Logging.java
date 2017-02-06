@@ -21,11 +21,11 @@ public class Logging implements Subsystem {
     private Flowable<Double> distances;
     private Flowable<Double> encoders;
     private Flowable<Double> arclengths;
-    private double setPoint;
+    private Flowable<Double> setPoint;
 
     Logging(){
-        this.serial = new Serial(20, 10);
-        this.vision = new Vision(serial.getDataStream());
+        //this.serial = new Serial(20, 10);
+        this.vision = new Vision(RobotBootstrapper.serial.getDataStream());
 
         this.sd = new WpiSmartDashboard();
 
@@ -33,7 +33,7 @@ public class Logging implements Subsystem {
         this.distances = vision.getDistance();
         this.encoders = FlowOperators.toFlow(() -> RobotBootstrapper.hoodMaster.getPosition());
         this.arclengths = TurretStaticPid.arcLength;
-        this.setPoint = TurretStaticPid.setpoint;
+        this.setPoint = FlowOperators.toFlow( () -> TurretStaticPid.test);
 
         this.angleLogger = sd.getTextField("angle");
         this.distanceLogger = sd.getTextField("distance");
@@ -47,5 +47,6 @@ public class Logging implements Subsystem {
         distances.subscribe(distanceLogger);
         encoders.subscribe(encoderLogger);
         arclengths.subscribe(arcLengthLogger);
+        setPoint.subscribe(setPointLogger);
     }
 }
