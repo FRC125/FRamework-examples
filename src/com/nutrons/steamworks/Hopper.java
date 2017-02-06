@@ -13,14 +13,14 @@ import org.reactivestreams.Subscriber;
 public class Hopper implements Subsystem {
     private final Flowable<ControllerEvent> runHopper;
     private final Consumer<ControllerEvent> hopperController;
-    private static double spinPower = 0.9;
+    private static double spinsPower = 0.9;
 
     /**
      * HopperController
      * Tune RunAtPowerEvent
      */
     public Hopper(Consumer<ControllerEvent> HopperController) {
-        this.runHopper = Flowable.just(new RunAtPowerEvent(spinPower));
+        this.runHopper = Flowable.just(new RunAtPowerEvent(spinsPower));
         this.hopperController = HopperController;
 
     }
