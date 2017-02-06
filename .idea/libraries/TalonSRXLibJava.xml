@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="TalonSRXLibJava">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/FRamework/wpilib/userLibs/TalonSRXLibJava.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

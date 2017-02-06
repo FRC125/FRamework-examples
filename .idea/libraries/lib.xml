@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/FRamework/wpilib/lib/NetworkTables-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/FRamework/wpilib/lib/cscore-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/FRamework/wpilib/lib/opencv.jar!/" />
+      <root url="jar://$PROJECT_DIR$/FRamework/wpilib/lib/WPILib.jar!/" />
+      <root url="jar://$PROJECT_DIR$/FRamework/wpilib/lib/WPILib-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/FRamework/wpilib/lib/NetworkTables.jar!/" />
+      <root url="jar://$PROJECT_DIR$/FRamework/wpilib/lib/opencv-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/FRamework/wpilib/lib/cscore.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

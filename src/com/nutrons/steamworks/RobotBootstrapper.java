@@ -24,13 +24,18 @@ public class RobotBootstrapper extends Robot {
     public static Talon hoodMaster;
 
     LoopModeEvent velocityMode;
-    private Talon shooter;
+    //    private Talon shooter;
 
     private WpiGamepad driverPad;
     private Flowable<Boolean> fireButtonStream;
     public static Serial serial;
     private Vision vision;
     private WpiSmartDashboard sd;
+
+    private Talon intakeController;
+    private WpiXboxGamepad controller;
+    private Talon shooterMotor1;
+    private Talon shooterMotor2;
 
     @Override
     protected void constructStreams() {
@@ -40,7 +45,7 @@ public class RobotBootstrapper extends Robot {
         this.driveRightA = new Talon(RobotMap.RIGHT_DRIVE_MOTOR_A);
         this.driveRightB = new FollowerTalon(RobotMap.RIGHT_DRIVE_MOTOR_B,
                 RobotMap.RIGHT_DRIVE_MOTOR_A);**/
-        //this.driverPad = new WpiXboxGamepad(0);
+	this.driverPad = new WpiXboxGamepad(0);
         this.hoodMaster = new Talon(RobotMap.HOOD_MOTOR_A);
         hoodMaster.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
         hoodMaster.configNominalOutputVoltage(+0f, -0f);
@@ -58,11 +63,18 @@ public class RobotBootstrapper extends Robot {
         this.velocityMode = new LoopModeEvent(ControllerMode.LOOP_SPEED);
         velocityMode.actOn(shooter);**/
         this.sd = new WpiSmartDashboard();
+
+        this.intakeController = new Talon(RobotMap.INTAKE_MOTOR);
+        this.shooterMotor1 = new Talon(RobotMap.SHOOTER_MOTOR_1);
+        this.shooterMotor2 = new Talon(RobotMap.SHOOTER_MOTOR_2, this.shooterMotor1);
+        this.controller = new WpiXboxGamepad(0);
+        this.enabledStream();
     }
 
     @Override
     protected StreamManager provideStreamManager() {
         StreamManager sm = new StreamManager(this);
+
         /**sm.registerSubsystem(new Drivetrain(driverPad.joy1Y(), driverPad.joy2Y(),
                 driveLeftA, driveRightA));**/
         /**sm.registerSubsystem(new Turret(vision.getAngle(), hoodMaster,
@@ -71,6 +83,8 @@ public class RobotBootstrapper extends Robot {
         sm.registerSubsystem(new TurretStaticPid(vision.getAngle(), hoodMaster));
         sm.registerSubsystem(sd);
         sm.registerSubsystem(new Logging());
+        sm.registerSubsystem(new Shooter(shooterMotor1));
+        sm.registerSubsystem(new Feeder(intakeController));
         return sm;
     }
 }
