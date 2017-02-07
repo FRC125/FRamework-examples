@@ -8,7 +8,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Consumer;
 
+import static com.nutrons.framework.util.FlowOperators.toFlow;
+
 public class Logging implements Subsystem {
+    private final Consumer<Double> error;
     private Serial serial;
     private Vision vision;
     private Consumer<Double> angleLogger;
@@ -25,21 +28,22 @@ public class Logging implements Subsystem {
 
     Logging(){
         //this.serial = new Serial(20, 10);
-        this.vision = new Vision(RobotBootstrapper.serial.getDataStream());
+        this.vision = new Vision(Flowable.never());
 
         this.sd = new WpiSmartDashboard();
 
         this.angles = vision.getAngle();
         this.distances = vision.getDistance();
-        this.encoders = FlowOperators.toFlow(() -> RobotBootstrapper.hoodMaster.getPosition());
+        this.encoders = toFlow(() -> RobotBootstrapper.hoodMaster.getPosition());
         this.arclengths = TurretStaticPid.arcLength;
-        this.setPoint = FlowOperators.toFlow( () -> TurretStaticPid.test);
+        this.setPoint = toFlow( () -> TurretStaticPid.test);
 
         this.angleLogger = sd.getTextField("angle");
         this.distanceLogger = sd.getTextField("distance");
         this.encoderLogger = sd.getTextField("encoder");
         this.setPointLogger = sd.getTextField("setpoint");
         this.arcLengthLogger = sd.getTextField("arclength");
+        this.error = sd.getTextField("error");
     }
     @Override
     public void registerSubscriptions() {
@@ -48,5 +52,6 @@ public class Logging implements Subsystem {
         encoders.subscribe(encoderLogger);
         arclengths.subscribe(arcLengthLogger);
         setPoint.subscribe(setPointLogger);
+        toFlow(() -> RobotBootstrapper.hmt.getError()).subscribe(error);
     }
 }

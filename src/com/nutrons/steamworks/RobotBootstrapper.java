@@ -5,6 +5,7 @@ import com.nutrons.framework.Robot;
 import com.nutrons.framework.StreamManager;
 import com.nutrons.framework.controllers.LoopModeEvent;
 import com.nutrons.framework.controllers.Talon;
+import com.nutrons.framework.controllers.WpiTalonProxy;
 import com.nutrons.framework.inputs.Serial;
 import com.nutrons.framework.inputs.WpiGamepad;
 import com.nutrons.framework.inputs.WpiXboxGamepad;
@@ -18,13 +19,13 @@ public class RobotBootstrapper extends Robot {
     private Talon driveRightB;
 
     public static Talon hoodMaster;
-
+    public static CANTalon hmt;
     LoopModeEvent velocityMode;
     //    private Talon shooter;
 
     private WpiGamepad driverPad;
     private Flowable<Boolean> fireButtonStream;
-    public static Serial serial;
+  //  public static Serial serial;
     private Vision vision;
     private WpiSmartDashboard sd;
 
@@ -41,19 +42,20 @@ public class RobotBootstrapper extends Robot {
         this.driveRightA = new Talon(RobotMap.RIGHT_DRIVE_MOTOR_A);
         this.driveRightB = new FollowerTalon(RobotMap.RIGHT_DRIVE_MOTOR_B,
                 RobotMap.RIGHT_DRIVE_MOTOR_A);**/
+        this.vision = new Vision(Flowable.never());
 	this.driverPad = new WpiXboxGamepad(0);
-        this.hoodMaster = new Talon(RobotMap.HOOD_MOTOR_A);
+	    hmt = new CANTalon(RobotMap.HOOD_MOTOR_A);
+        this.hoodMaster = new Talon(new WpiTalonProxy(hmt));
         hoodMaster.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
         hoodMaster.configNominalOutputVoltage(+0f, -0f);
         hoodMaster.configPeakOutputVoltage(+12f, -12f);
         hoodMaster.setProfile(0);
         hoodMaster.reverseOutput(false);
         hoodMaster.reverseSensor(false);
-        hoodMaster.setEncPosition(0);
+        hmt.setAllowableClosedLoopErr(0);
 
-
-        this.serial = new Serial(20, 10);
-        this.vision = new Vision(serial.getDataStream());
+        //this.serial = new Serial(20, 10);
+      //  this.vision = new Vision(serial.getDataStream());
         /**this.shooter = new Talon(RobotMap.SHOOTER);
         this.fireButtonStream = driverPad.button(RobotMap.SHOOT_BUTTON);
         this.velocityMode = new LoopModeEvent(ControllerMode.LOOP_SPEED);
