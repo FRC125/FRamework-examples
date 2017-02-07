@@ -16,12 +16,12 @@ public class Hopper implements Subsystem {
     private final Consumer<ControllerEvent> hopperController;
 
     /**
-     * @param HopperController passes in RunAtPowerEvent
+     * @param hopperController passes in RunAtPowerEvent
      * @todo Tune spinsPower if needed
      */
-    public Hopper(Consumer<ControllerEvent> HopperController) {
+    public Hopper(Consumer<ControllerEvent> hopperController) {
         this.runHopper = Flowable.just(new RunAtPowerEvent(spinsPower));
-        this.hopperController = HopperController;
+        this.hopperController = hopperController;
 
     }
 
