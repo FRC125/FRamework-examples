@@ -46,14 +46,16 @@ public class RobotBootstrapper extends Robot {
 	this.driverPad = new WpiXboxGamepad(0);
 	    hmt = new CANTalon(RobotMap.HOOD_MOTOR_A);
         this.hoodMaster = new Talon(new WpiTalonProxy(hmt));
-        hoodMaster.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
+        hoodMaster.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
         hoodMaster.configNominalOutputVoltage(+0f, -0f);
         hoodMaster.configPeakOutputVoltage(+12f, -12f);
-        hoodMaster.setProfile(0);
+       // hoodMaster.setProfile(0);
         hoodMaster.reverseOutput(false);
         hoodMaster.reverseSensor(false);
+        hmt.clearIAccum();
+        hmt.clearStickyFaults();
         hmt.setAllowableClosedLoopErr(0);
-
+        hmt.setProfile(0);
         //this.serial = new Serial(20, 10);
       //  this.vision = new Vision(serial.getDataStream());
         /**this.shooter = new Talon(RobotMap.SHOOTER);

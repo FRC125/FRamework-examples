@@ -34,13 +34,13 @@ public class Logging implements Subsystem {
 
         this.angles = vision.getAngle();
         this.distances = vision.getDistance();
-        this.encoders = toFlow(() -> RobotBootstrapper.hoodMaster.getPosition());
+        this.encoders = toFlow(() -> RobotBootstrapper.hoodMaster.getEncoderPosition());
         this.arclengths = TurretStaticPid.arcLength;
-        this.setPoint = toFlow( () -> TurretStaticPid.test);
+        this.setPoint = toFlow( () -> RobotBootstrapper.hmt.getSetpoint());
 
         this.angleLogger = sd.getTextField("angle");
         this.distanceLogger = sd.getTextField("distance");
-        this.encoderLogger = sd.getTextField("encoder");
+        this.encoderLogger = sd.getTextField("encPosition");
         this.setPointLogger = sd.getTextField("setpoint");
         this.arcLengthLogger = sd.getTextField("arclength");
         this.error = sd.getTextField("error");
@@ -53,5 +53,6 @@ public class Logging implements Subsystem {
         arclengths.subscribe(arcLengthLogger);
         setPoint.subscribe(setPointLogger);
         toFlow(() -> RobotBootstrapper.hmt.getError()).subscribe(error);
+        toFlow(() -> RobotBootstrapper.hmt.getEncVelocity()).map(x -> x*1.0).subscribe(sd.getTextField("encVelocity"));
     }
 }

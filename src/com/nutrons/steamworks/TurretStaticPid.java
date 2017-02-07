@@ -37,9 +37,8 @@ public class TurretStaticPid implements Subsystem {
     @Override
     public void registerSubscriptions() {
         //arcLength.map((x) -> new RunAtPowerEvent(0.1)).subscribe(hoodMaster);
-        Flowable<ControllerEvent> source = toFlow(() -> new LoopPropertiesEvent(10000, 0.05, 0.0, 0.0, 0.0));
+        Flowable<ControllerEvent> source = toFlow(() -> new LoopPropertiesEvent(new Wp, 0.05, 0.0, 0.0, 0.0));
                source.mergeWith(toFlow(() -> new LoopModeEvent(ControllerMode.LOOP_POSITION))).subscribe(hoodMaster);
         RobotBootstrapper.hoodMaster.feedback().map(x -> x.error()).subscribe(System.out::println);
-        Flowable.timer(5, TimeUnit.SECONDS).map(x -> (Action) () -> RobotBootstrapper.hmt.setPosition(0)).subscribe(Action::run);
     }
 }
