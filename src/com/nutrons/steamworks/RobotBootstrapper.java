@@ -32,13 +32,13 @@ public class RobotBootstrapper extends Robot {
         this.rightFollower = new Talon(RobotMap.FRONT_RIGHT, this.rightLeader);
         this.driverPad = new WpiXboxGamepad(RobotMap.DRIVER_PAD);
         this.driveRollers = new Talon(RobotMap.INTAKE_MOTOR);
-        this.headingGyro = new  ADXRS450_Gyro(RobotMap.HEADING_GYRO);
+        this.headingGyro = new  ADXRS450_Gyro();
     }
     @Override
     protected StreamManager provideStreamManager() {
         StreamManager sm = new StreamManager(this);
-            sm.registerSubsystem(new Drivetrain(driverPad.joy2X().map(x -> -x), driverPad.joy1Y(),
-                    leftLeader, rightLeader, headingGyro));
+        sm.registerSubsystem(new Drivetrain(driverPad.joy2X().map(x -> -x), driverPad.joy1Y(), driverPad.rightTrigger(),
+                    leftLeader, rightLeader));
         sm.registerSubsystem(new Intake(operatorPad.joy2Y(), driveRollers));
             return sm;
         }

@@ -5,41 +5,65 @@ import static java.lang.Math.*;
 
 import com.nutrons.framework.Subsystem;
 import com.nutrons.framework.controllers.ControllerEvent;
-import com.nutrons.framework.controllers.PIDGyro;
 import com.nutrons.framework.controllers.RunAtPowerEvent;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
+import com.nutrons.framework.inputs.HeadingGyro;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Consumer;
 
-public class
+import static com.nutrons.framework.util.FlowOperators.toFlow;
 
-Drivetrain implements Subsystem {
+public class Drivetrain implements Subsystem {  // Right Trigger
     private final Flowable<Double> throttle;
     private final Flowable<Double> yaw;
     private final Consumer<ControllerEvent> leftDrive;
     private final Consumer<ControllerEvent> rightDrive;
-    private double coeff = 0.6;
-    private final PIDGyro headingGyro;
+    private final Flowable<Boolean> holdHeading;
+    private boolean holdHeadingEnabled = false;
+    private final Flowable<Double> gyroAngles;
+    private double coeff = 1.0;
+    private double gyroSetpoint = 0.0;
+    private final HeadingGyro headingGyro;
+    private final Flowable<Double> setpoint;
+    private final Flowable<Double> error;
 
 
-    public Drivetrain(Flowable<Double> throttle, Flowable<Double> yaw,
-               Consumer<ControllerEvent> leftDrive, Consumer<ControllerEvent> rightDrive, Flowable<Double> headingGyro) {
+
+    public Drivetrain(Flowable<Double> throttle, Flowable<Double> yaw, Flowable<Boolean> holdHeading,
+               Consumer<ControllerEvent> leftDrive, Consumer<ControllerEvent> rightDrive) {
 
         this.throttle = deadzone(throttle);
         this.yaw = deadzone(yaw);
         this.leftDrive = leftDrive;
         this.rightDrive = rightDrive;
-        this.headingGyro = new PIDGyro(0.0, 0.0, 0.0, 0.0);
+        this.headingGyro  = new HeadingGyro();
+        this.holdHeading = holdHeading;  // Right Trigger
+        this.gyroAngles = toFlow(() -> headingGyro.getAngle());
+        this.setpoint = toFlow(() -> getSetpoint());
+        this.error = combineLatest(setpoint, gyroAngles, (x, y) -> x - y);
+
+
+
     }
 
     private Flowable<Double> deadzone(Flowable<Double> input) {
         return input.map((x) -> abs(x) < 0.2 ? 0.0 : x);
     }
 
+    private double getSetpoint() { return gyroSetpoint; }
+
+    private void setSetpoint(double setpoint) { gyroSetpoint = setpoint; }
+
     @Override
     public void registerSubscriptions() {
+        holdHeading.map(x -> holdHeadingEnabled = x);
+        if (holdHeadingEnabled) {
+            headingGyro.reset();
+            setSetpoint(0.0);
+            combineLatest(throttle, yaw, error, (x, y, z) -> x + y + z).map(x -> x * coeff).map(RunAtPowerEvent::new).subscribe(leftDrive);
+            combineLatest(throttle, yaw, error, (x, y, z) -> x - y - z).map(x -> x * coeff).map(RunAtPowerEvent::new).subscribe(rightDrive);
+        }
         combineLatest(throttle, yaw,(x, y) -> x + y).map(x -> x * coeff).map(RunAtPowerEvent::new).subscribe(leftDrive);
         combineLatest(throttle, yaw,(x, y) -> x - y).map(x -> x * coeff).map(RunAtPowerEvent::new).subscribe(rightDrive);
-        headingGyro.
+
     }
 }
