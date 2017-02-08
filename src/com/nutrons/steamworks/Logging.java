@@ -54,5 +54,6 @@ public class Logging implements Subsystem {
         setPoint.subscribe(setPointLogger);
         toFlow(() -> RobotBootstrapper.hmt.getError()).subscribe(error);
         toFlow(() -> RobotBootstrapper.hmt.getEncVelocity()).map(x -> x*1.0).subscribe(sd.getTextField("encVelocity"));
+        toFlow(() -> RobotBootstrapper.hmt.getPosition()).subscribe(sd.getTextField("actual position"));
     }
 }
