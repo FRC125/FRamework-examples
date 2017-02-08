@@ -11,7 +11,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="ivy" level="project" />
     <orderEntry type="library" name="wpilib" level="project" />
-    <orderEntry type="library" name="userlibs" level="project" />
     <orderEntry type="module" module-name="FRamework" />
+    <orderEntry type="library" name="userLibs" level="project" />
   </component>
 </module>

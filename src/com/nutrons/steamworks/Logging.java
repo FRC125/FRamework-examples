@@ -27,7 +27,6 @@ public class Logging implements Subsystem {
     private Flowable<Double> setPoint;
 
     Logging(){
-        //this.serial = new Serial(20, 10);
         this.vision = new Vision(Flowable.never());
 
         this.sd = new WpiSmartDashboard();
